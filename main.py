@@ -11,12 +11,12 @@ def enter_data():
             title = title_combobox.get()
             age = age_spinbox.get()
             nationality = nationality_combobox.get()
-            
+
             # Course Info
             registration_status = reg_status_var.get( )
             numcourses = numcourses_spinbox.get()
             numsemesters = numsemesters_spinbox.get()
-    
+        
             print("First name: ", firstname, "Last name: ", lastname)
             print("Title: ", title, "Age: ", age, "Nationality: ", nationality)
             print("# Courses: ", numcourses, "# Semesters: ", numsemesters)
