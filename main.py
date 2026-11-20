@@ -38,7 +38,7 @@ def enter_data():
             age, nationality, registration_status, num_courses, num_semesters) VALUES
             (?, ?, ?, ?, ?, ?, ?, ?)'''
             data_insert_tuple = (firstname, lastname, title, 
-                                age, nationality, numcourses, numsemesters, registration_status)
+                                age, nationality, registration_status, numcourses, numsemesters)
             cursor = conn.cursor()
             cursor.execute(data_insert_query, data_insert_tuple)
             conn.commit()
