@@ -1,6 +1,10 @@
 import tkinter
 from tkinter import ttk
 from tkinter import messagebox
+import os
+import openpyxl
+import sqlite3
+
 def enter_data():
     accepted = accept_var.get()
 
@@ -22,10 +26,41 @@ def enter_data():
             print("# Courses: ", numcourses, "# Semesters: ", numsemesters)
             print("Registration status", registration_status)
             print("------------------------------------------")
-        else:
-            tkinter.messagebox.showwarning(title="Error", message="First name and last name are required.")
-    else:
-        tkinter.messagebox.showwarning(title= "Error", message="You have not accepted the terms.")
+
+            # SQLite
+            conn = sqlite3.connect('data.db')
+            table_create_query = '''CREATE TABLE IF NOT EXISTS Student_Data
+                    (firstname TEXT, lastname TEXT, title TEXT, age INT, nationality TEXT, 
+                    registration_status TEXT, num_courses INT, num_semesters INT)
+            '''
+            conn.execute(table_create_query)
+            data_insert_query = '''INSERT INTO Student_Data (firstname, lastname, title, 
+            age, nationality, registration_status, num_courses, num_semesters) VALUES
+            (?, ?, ?, ?, ?, ?, ?, ?)'''
+            data_insert_tuple = (firstname, lastname, title, 
+                                age, nationality, numcourses, numsemesters, registration_status)
+            cursor = conn.cursor()
+            cursor.execute(data_insert_query, data_insert_tuple)
+            conn.commit()
+            conn.close()
+            # Excel
+    #         filepath = "D:\Desktop\Python-GUI-Project\data.xlsx"
+    #         if not os.path.exists(filepath):
+    #             workbook = openpyxl.Workbook()
+    #             sheet = workbook.active
+    #             heading = ["First Name", "Last Name", "Title", "Age", "Nationality",
+    #                        "# Courses","# Semesters", "Registration status"]
+    #             sheet.append(heading)
+    #             workbook.save(filepath)
+    #         workbook = openpyxl.load_workbook(filepath)
+    #         sheet = workbook.active
+    #         sheet.append([firstname, lastname, title, age, nationality, numcourses,
+    #                       numsemesters, registration_status])
+    #         workbook.save(filepath)
+    #     else:
+    #         tkinter.messagebox.showwarning(title="Error", message="First name and last name are required.")
+    # else:
+    #     tkinter.messagebox.showwarning(title= "Error", message="You have not accepted the terms.")
 
 window = tkinter.Tk()
 window.title("Data Entry Form")
